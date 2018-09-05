@@ -106,14 +106,27 @@ static void signal_reset(void)
 	memcpy(registers, register_reset_value, sizeof(registers));
 }
 
-static unsigned int signal_mmio(unsigned int addr, unsigned int data, unsigned int option)
+static int signal_read(unsigned int addr, unsigned char *data, unsigned int length)
 {
-	return register_action[addr](data, option);
+	assert(NULL != data);
+
+	int i;
+
+	for (i = 0; i < length; i++)
+		data[i] = 0xaa;
+
+	return 0;
+}
+
+static int signal_write(unsigned int addr, unsigned char *data, unsigned int length)
+{
+	return 0;
 }
 
 // TODO register signals here
 // TODO how to support multi-instance
 SIGNAL_CLOCK_REGISTER("uart", signal_clock);
+SIGNAL_BUS_REGISTER("uart", 0x40000000, 1024, signal_read, signal_write);
 
 //------------------------------------------------------------------------------
 //									Internals definition

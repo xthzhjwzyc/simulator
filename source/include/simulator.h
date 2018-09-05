@@ -7,6 +7,7 @@
 
 // linux platform
 #include <time.h>
+#include <assert.h>
 
 // internal
 #include <signal.h>
