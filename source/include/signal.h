@@ -1,17 +1,23 @@
 #ifndef SIGNAL_H
 #define SIGNAL_H
 
-struct clock {
-	unsigned int value;
-	unsigned int reload;
-	void (*clock_posedge)(void);
+struct signal_clock {
+	const char *name;
+	void (*cb)(void);
 };
 
-extern void interrupt_raise(void);
+// used: warning: ‘clock’ defined but not used
+// don't use ".clock" as I will use __start_clock
+#define SIGNAL_CLOCK_REGISTER(name, callback)			\
+	static struct signal_clock				\
+		_clock						\
+		__attribute__ ((used, section("clock"))) =	\
+		{name, callback};
 
-extern void pin_write(unsigned char *data);
-extern void pin_read(unsigned char *data);
+extern void signal_clock_init(void);
+extern void signal_bus_init(void);
 
-typedef unsigned int (*register_action_t)(unsigned int value);
+extern void signal_clock_posedge(void);
 
 #endif
+

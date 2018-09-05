@@ -1,7 +1,7 @@
 // The file has been auto generated
 
 //------------------------------------------------------------------------------
-//									Header
+//				Header
 //------------------------------------------------------------------------------
 #include <simulator.h>
 
@@ -19,7 +19,7 @@ static unsigned int register_action_divisor0(unsigned int value, unsigned int op
 static unsigned int register_action_divisor1(unsigned int value, unsigned int option);
 
 //------------------------------------------------------------------------------
-//									Registers
+//				Registers
 //------------------------------------------------------------------------------
 
 enum {
@@ -35,6 +35,17 @@ enum {
 	REG_DIVISOR1
 };
 
+#define REG_RESET_VALUE_DR		0
+#define REG_RESET_VALUE_INT_EN		0
+#define REG_RESET_VALUE_INT_ID		0
+#define REG_RESET_VALUE_FIFO_CTL	0
+#define REG_RESET_VALUE_LINE_CTL	0
+#define REG_RESET_VALUE_MODEM_CTL	0
+#define REG_RESET_VALUE_LINE_STS	0
+#define REG_RESET_VALUE_MODEM_STS	0
+#define REG_RESET_VALUE_DIVISOR0	0
+#define REG_RESET_VALUE_DIVISOR1	0
+
 static const unsigned int register_reset_value[] = {
 	REG_RESET_VALUE_DR,
 	REG_RESET_VALUE_INT_EN,
@@ -48,7 +59,7 @@ static const unsigned int register_reset_value[] = {
 	REG_RESET_VALUE_DIVISOR1
 };
 
-static unsigned int register[] = {
+static unsigned int registers[] = {
 	REG_RESET_VALUE_DR,
 	REG_RESET_VALUE_INT_EN,
 	REG_RESET_VALUE_INT_ID,
@@ -87,24 +98,12 @@ static void signal_clock(void)
 {
 	static unsigned int count = 0;
 	
-	unsigned int data;
-	int direction;
-	
 	count++;
-	
-	if (count > register[REG_DIVISOR0]) {
-		if (direction)
-			pin_write(register[REG_DR], 1)
-		else
-			register[REG_DR] = pin_read(1)
-	}
-	
-	// update status
 }
 
 static void signal_reset(void)
 {
-	memcpy(register, register_reset_value, sizeof(register));
+	memcpy(registers, register_reset_value, sizeof(registers));
 }
 
 static unsigned int signal_mmio(unsigned int addr, unsigned int data, unsigned int option)
@@ -112,9 +111,9 @@ static unsigned int signal_mmio(unsigned int addr, unsigned int data, unsigned i
 	return register_action[addr](data, option);
 }
 
-REGISTER_SIGNAL(SIGNAL_MMIO, signal_mmio);
-REGISTER_SIGNAL(SIGNAL_RESET, signal_reset);
-REGISTER_SIGNAL(SIGNAL_CLOCK, signal_clock);
+// TODO register signals here
+// TODO how to support multi-instance
+SIGNAL_CLOCK_REGISTER("uart", signal_clock);
 
 //------------------------------------------------------------------------------
 //									Internals definition
@@ -122,50 +121,51 @@ REGISTER_SIGNAL(SIGNAL_CLOCK, signal_clock);
 
 static unsigned int register_action_dr(unsigned int value, unsigned int option)
 {
-	
+	return 0;
 }
 
 static unsigned int register_action_int_en(unsigned int value, unsigned int option)
 {
-	
+	return 0;
 }
 
 static unsigned int register_action_int_id(unsigned int value, unsigned int option)
 {
-	
+	return 0;
 }
 
 static unsigned int register_action_fifo_ctl(unsigned int value, unsigned int option)
 {
-	
+	return 0;
 }
 
 static unsigned int register_action_line_ctl(unsigned int value, unsigned int option)
 {
-	
+	return 0;
 }
 
 static unsigned int register_action_modem_ctl(unsigned int value, unsigned int option)
 {
-	
+	return 0;
 }
 
 static unsigned int register_action_line_sts(unsigned int value, unsigned int option)
 {
-	
+	return 0;
 }
 
 static unsigned int register_action_modem_sts(unsigned int value, unsigned int option)
 {
-	
+	return 0;
 }
 
 static unsigned int register_action_divisor0(unsigned int value, unsigned int option)
 {
-	
+	return 0;
 }
 
 static unsigned int register_action_divisor1(unsigned int value, unsigned int option)
 {
-	
+	return 0;
 }
+

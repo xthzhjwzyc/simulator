@@ -1,29 +1,30 @@
+#define DEBUG
+
 #include <simulator.h>
 
-extern struct clock section_clock[];
+extern unsigned int __start_clock;
+extern unsigned int __stop_clock;
 
-void clock_load(void)
+static struct signal_clock *clock_begin = (void *)&__start_clock;
+static struct signal_clock *clock_end = (void *)&__stop_clock;
+
+unsigned int clock_count;
+
+void signal_clock_init(void)
 {
-	int i;
-	unsigned int section_size;
-	
-	for (i = 0; i < section_size / 4; i ++) {
-		if (0 == strcpy(section_clock[i].name == map_clock[i].name)) {
-			map_clock.clock_posedge = section_clock.clock_posedge;
+}
+
+void signal_clock_posedge(void)
+{
+	struct signal_clock *clock;
+
+	clock_count++;
+
+	for (clock = clock_begin; clock < clock_end; clock++) {
+		if (clock->cb) {
+			DBG("clock posedge: %s\n", clock->name);
+			clock->cb();
 		}
 	}
 }
 
-void clock_posedge(void)
-{
-	int i;
-	unsigned int section_size;
-	
-	for (i = 0; i < section_size / 4; i ++) {
-		clock[i].value--;
-		if (0 == clock[i].value) {
-			clock[i].value = clock[i].reload;
-			clock[i].clock_posedge();
-		}
-	}
-}

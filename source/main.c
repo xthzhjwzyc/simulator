@@ -1,17 +1,26 @@
 #include <simulator.h>
 
+void delay_1s(void)
+{
+	static time_t cur = 0;
+
+	while (cur == time(NULL));
+
+	cur = time(NULL);
+}
+
 int main(int argc, char *argv[])
 {
-	/* initialize from known signal sections
-	 * - bus
-	 * - clock
-	 * - reset	
-	 */
-	ip_attach();
+	DBG("simulator %s\n", VERSION);
+
+	DBG("build %s %s\n", __DATE__, __TIME__);
+
+	signal_clock_init();
 	
 	/* one loop = one cycle */
 	while (1) {
-		clock_posedge();
+		signal_clock_posedge();
+		delay_1s();
 	}
 	
 	return 0;
