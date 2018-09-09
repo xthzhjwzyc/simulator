@@ -4,6 +4,7 @@
 #include <simulator.h>
 
 #include "config.h"
+#include "isa.h"
 
 /* refer to D8.1: ARM core registers */
 struct regfile {
