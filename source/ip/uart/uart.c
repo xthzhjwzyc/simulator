@@ -59,7 +59,7 @@ static const unsigned int register_reset_value[] = {
 	REG_RESET_VALUE_DIVISOR1
 };
 
-static unsigned int registers[] = {
+static unsigned int register_value[] = {
 	REG_RESET_VALUE_DR,
 	REG_RESET_VALUE_INT_EN,
 	REG_RESET_VALUE_INT_ID,
@@ -101,25 +101,38 @@ static void signal_clock(void)
 	count++;
 }
 
+#ifdef UART_SUPPORT_RESET_SIGNAL
 static void signal_reset(void)
 {
 	memcpy(registers, register_reset_value, sizeof(registers));
 }
+#endif
 
 static int signal_read(unsigned int addr, unsigned char *data, unsigned int length)
 {
 	assert(NULL != data);
+	assert(addr < sizeof(register_value));
+	assert(MACHINE_WIDTH == length);
 
-	int i;
+	register_action[addr](0, BUS_DIR_READ);
 
-	for (i = 0; i < length; i++)
-		data[i] = 0xaa;
+	*(unsigned int *)data = register_value[addr];
 
 	return 0;
 }
 
 static int signal_write(unsigned int addr, unsigned char *data, unsigned int length)
 {
+	assert(NULL != data);
+	assert(addr < sizeof(register_value));
+	assert(MACHINE_WIDTH == length);
+
+	unsigned int value = *(unsigned int *)data;
+
+	register_action[addr](value, BUS_DIR_WRITE);
+
+	register_value[addr] = *(unsigned int *)data;
+
 	return 0;
 }
 

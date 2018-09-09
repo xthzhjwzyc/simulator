@@ -1,0 +1,6 @@
+#ifndef IP_UART16550_CONFIG_H
+#define IP_UART16550_CONFIG_H
+
+//#define UART_SUPPORT_RESET_SIGNAL
+
+#endif
