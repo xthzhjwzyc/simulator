@@ -12,6 +12,7 @@
 
 // internal
 #include "signal.h"
+#include "bitops.h"
 
 #define VERSION "0.0.0"
 
