@@ -9,7 +9,10 @@ SRC += main.c
 SRC += soc.c
 
 SRC += ip/uart/uart.c
+
 SRC += ip/armv7m/core.c
+SRC += ip/armv7m/regfile.c
+SRC += ip/armv7m/isa.c
 
 SRC += signals/clock.c
 SRC += signals/interrupt.c
