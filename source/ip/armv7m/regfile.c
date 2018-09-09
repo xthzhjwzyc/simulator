@@ -1,3 +1,3 @@
 #include "core.h"
 
-struct regfile regfile;
+struct core_registers regfile;

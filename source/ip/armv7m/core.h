@@ -5,40 +5,70 @@
 
 #include "config.h"
 #include "isa.h"
+#include "pseudo.h"
 
 /* refer to D8.1: ARM core registers */
-struct regfile {
-        unsigned int r0;
-        unsigned int r1;
-        unsigned int r2;
-        unsigned int r3;
-        unsigned int r4;
-        unsigned int r5;
-        unsigned int r6;
-        unsigned int r7;
-        unsigned int r8;
-        unsigned int r9;
-        unsigned int r10;
-        unsigned int r11;
-        unsigned int r12;
-        unsigned int sp;
-        unsigned int lr;
-        unsigned int pc;
+struct core_registers {
 
-        unsigned int apsr;
-        unsigned int epsr;
-        unsigned int ipsr;
+	/* deprecated */
+        volatile unsigned int r0;
+        volatile unsigned int r1;
+        volatile unsigned int r2;
+        volatile unsigned int r3;
+        volatile unsigned int r4;
+        volatile unsigned int r5;
+        volatile unsigned int r6;
+        volatile unsigned int r7;
+        volatile unsigned int r8;
+        volatile unsigned int r9;
+        volatile unsigned int r10;
+        volatile unsigned int r11;
+        volatile unsigned int r12;
+        volatile unsigned int sp;
+        volatile unsigned int lr;
+        volatile unsigned int pc;
 
-        unsigned int msp;
-        unsigned int psp;
+	volatile unsigned int reg[16];
 
-	unsigned int primask;
-	unsigned int faultmask;
-	unsigned int basepri;
-	unsigned int control;
+        volatile unsigned int apsr;
+        volatile unsigned int epsr;
+        volatile unsigned int ipsr;
+
+        volatile unsigned int msp;
+        volatile unsigned int psp;
+
+	volatile unsigned int primask;
+	volatile unsigned int faultmask;
+	volatile unsigned int basepri;
+	volatile unsigned int control;
 };
 
-extern struct regfile regfile;
+extern struct core_registers regfile;
+
+#define APSR_N	((regfile.apsr & BIT(31)) ? 1 : 0)
+#define APSR_Z	((regfile.apsr & BIT(30)) ? 1 : 0)
+#define APSR_C	((regfile.apsr & BIT(29)) ? 1 : 0)
+#define APSR_V	((regfile.apsr & BIT(28)) ? 1 : 0)
+
+#define APSR_N_SET(x)	do {					\
+		BITCLR(regfile.apsr, 31, 31);			\
+		BITSET(regfile.apsr, 31, 31, x ? 1 : 0);	\
+	} while (0);
+
+#define APSR_Z_SET(x)	do {					\
+		BITCLR(regfile.apsr, 30, 30);			\
+		BITSET(regfile.apsr, 30, 30, x ? 1 : 0);	\
+	} while (0);
+
+#define APSR_C_SET(x)	do {					\
+		BITCLR(regfile.apsr, 29, 29);			\
+		BITSET(regfile.apsr, 29, 29, x ? 1 : 0);	\
+	} while (0);
+
+#define APSR_V_SET(x)	do {					\
+		BITCLR(regfile.apsr, 28, 28);			\
+		BITSET(regfile.apsr, 28, 28, x ? 1 : 0);	\
+	} while (0);
 
 // TODO this is a register in SCS
 #define VECTOR_BASE    (0)
