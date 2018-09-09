@@ -5,6 +5,7 @@
 
 #include "config.h"
 
+/* refer to D8.1: ARM core registers */
 struct regfile {
         unsigned int r0;
         unsigned int r1;
@@ -29,6 +30,11 @@ struct regfile {
 
         unsigned int msp;
         unsigned int psp;
+
+	unsigned int primask;
+	unsigned int faultmask;
+	unsigned int basepri;
+	unsigned int control;
 };
 
 extern struct regfile regfile;
