@@ -52,7 +52,12 @@ enum {
 	BUS_DIR_WRITE = 1
 };
 
-extern int bus_read32(unsigned int addr, unsigned int *value);
+extern int bus_request(
+	unsigned int addr,
+	unsigned char *val,
+	unsigned int len,
+	int dir
+	);
 
 #endif
 
