@@ -22,6 +22,36 @@
 	LOCAL_VAR(carry);				\
 	LOCAL_VAR(overflow);
 
+#define ISA_THUMB_ENCODING_imm3_Rn_Rd			\
+	imm3 = BITGET(inst, 8, 6);			\
+	n = BITGET(inst, 5, 3);				\
+	d = BITGET(inst, 2, 0);	
+
+#define ISA_THUMB_ENCODING_Rdn_imm8			\
+	d = BITGET(inst, 10, 8);			\
+	n = d;						\
+	imm8 = BITGET(inst, 7, 0);
+
+#define ISA_THUMB_ENCODING_Rm_Rn_Rd			\
+	m = BITGET(inst, 8, 6);				\
+	n = BITGET(inst, 5, 3);				\
+	d = BITGET(inst, 2, 0);	
+
+#define ISA_THUMB2_ENCODING_i_S_Rn_imm3_Rd_imm8		\
+	i = BITGET(inst, HIGH(10), HIGH(10));		\
+	S = BITGET(inst, HIGH(4), HIGH(4));		\
+	n = BITGET(inst, HIGH(3), HIGH(0));		\
+	imm3 = BITGET(inst, 14, 12);			\
+	d = BITGET(inst, 11, 8);			\
+	imm8 = BITGET(inst, 7, 0);
+
+#define ISA_THUMB2_ENCODING_i_Rn_imm3_Rd_imm8		\
+	i = BITGET(inst, HIGH(10), HIGH(10));		\
+	n = BITGET(inst, HIGH(3), HIGH(0));		\
+	imm3 = BITGET(inst, 14, 12);			\
+	d = BITGET(inst, 11, 8);			\
+	imm8 = BITGET(inst, 7, 0);
+
 #define ISA_SET_FLAGS						\
 	do {							\
 		if (setflags) {					\
