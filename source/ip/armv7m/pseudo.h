@@ -50,6 +50,8 @@
 #define InITBlock()	(false)
 #define Shift(reg, a, b, c)
 #define DecodeImmShift(type, imm)
+#define ThumbExpandImm(imm)
+#define ZeroExtend(imm, num)
 
 #endif
 

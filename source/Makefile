@@ -16,6 +16,7 @@ SRC += ip/armv7m/isa.c
 
 SRC += ip/armv7m/isa/adc_imm.c
 SRC += ip/armv7m/isa/adc_reg.c
+SRC += ip/armv7m/isa/add_imm.c
 
 SRC += signals/clock.c
 SRC += signals/interrupt.c
