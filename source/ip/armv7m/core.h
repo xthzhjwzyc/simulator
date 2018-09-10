@@ -7,6 +7,14 @@
 #include "isa.h"
 #include "pseudo.h"
 
+struct apsr {
+	unsigned int N:1;
+	unsigned int Z:1;
+	unsigned int C:1;
+	unsigned int V:1;
+	unsigned int RSVD:28;
+};
+
 /* refer to D8.1: ARM core registers */
 struct core_registers {
 
@@ -30,7 +38,7 @@ struct core_registers {
 
 	volatile unsigned int reg[16];
 
-        volatile unsigned int apsr;
+        volatile struct apsr apsr;
         volatile unsigned int epsr;
         volatile unsigned int ipsr;
 
@@ -45,30 +53,7 @@ struct core_registers {
 
 extern struct core_registers regfile;
 
-#define APSR_N	((regfile.apsr & BIT(31)) ? 1 : 0)
-#define APSR_Z	((regfile.apsr & BIT(30)) ? 1 : 0)
-#define APSR_C	((regfile.apsr & BIT(29)) ? 1 : 0)
-#define APSR_V	((regfile.apsr & BIT(28)) ? 1 : 0)
-
-#define APSR_N_SET(x)	do {					\
-		BITCLR(regfile.apsr, 31, 31);			\
-		BITSET(regfile.apsr, 31, 31, x ? 1 : 0);	\
-	} while (0);
-
-#define APSR_Z_SET(x)	do {					\
-		BITCLR(regfile.apsr, 30, 30);			\
-		BITSET(regfile.apsr, 30, 30, x ? 1 : 0);	\
-	} while (0);
-
-#define APSR_C_SET(x)	do {					\
-		BITCLR(regfile.apsr, 29, 29);			\
-		BITSET(regfile.apsr, 29, 29, x ? 1 : 0);	\
-	} while (0);
-
-#define APSR_V_SET(x)	do {					\
-		BITCLR(regfile.apsr, 28, 28);			\
-		BITSET(regfile.apsr, 28, 28, x ? 1 : 0);	\
-	} while (0);
+#define APSR	regfile.apsr
 
 // TODO this is a register in SCS
 #define VECTOR_BASE    (0)

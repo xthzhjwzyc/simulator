@@ -18,17 +18,17 @@ struct thumb2_instruction {
 };
 
 // TODO distinguish multiple register in a same file
-#define ISA_THUMB_REGISTER(name,mask,value,callback)		\
+#define ISA_THUMB_REGISTER(name,mask,value)			\
 	static struct thumb_instruction				\
-		_instruction_					\
+		_instruction_##name				\
 		__attribute__ ((used, section("thumb"))) =	\
-		{name, mask, value, callback};
+		{#name, mask, value, name};
 
-#define ISA_THUMB2_REGISTER(name,mask,value,callback)		\
+#define ISA_THUMB2_REGISTER(name,mask,value)			\
 	static struct thumb2_instruction			\
-		_instruction_					\
+		_instruction_##name				\
 		__attribute__ ((used, section("thumb2"))) =	\
-		{name, mask, value, callback};
+		{#name, mask, value, name};
 
 #define ISA_UNPREDICTABLE_IN_R13_R15(x)	assert(x < 13)
 
