@@ -54,6 +54,7 @@ struct core_registers {
 extern struct core_registers regfile;
 
 #define APSR	regfile.apsr
+#define R	regfile.reg
 
 // TODO this is a register in SCS
 #define VECTOR_BASE    (0)

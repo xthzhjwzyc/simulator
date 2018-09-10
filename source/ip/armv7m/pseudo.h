@@ -6,12 +6,18 @@
 #define ISA_LOCAL_VARS					\
 	LOCAL_VAR(i);					\
 	LOCAL_VAR(S);					\
+	LOCAL_VAR(type);				\
+	LOCAL_VAR(shift_t);				\
+	LOCAL_VAR(shift_n);				\
+	LOCAL_VAR(shifted);				\
+	LOCAL_VAR(imm2);				\
 	LOCAL_VAR(imm3);				\
 	LOCAL_VAR(imm8);				\
+	LOCAL_VAR(imm32);				\
 	LOCAL_VAR(d);					\
 	LOCAL_VAR(n);					\
+	LOCAL_VAR(m);					\
 	LOCAL_VAR(setflags);				\
-	LOCAL_VAR(imm32);				\
 	LOCAL_VAR(result);				\
 	LOCAL_VAR(carry);				\
 	LOCAL_VAR(overflow);
@@ -19,10 +25,10 @@
 #define ISA_SET_FLAGS						\
 	do {							\
 		if (setflags) {					\
-			APSR_N_SET(BITGET(result, 31, 31));	\
-			APSR_Z_SET(result ? 1 : 0);		\
-			APSR_C_SET(carry);			\
-			APSR_V_SET(overflow);			\
+			APSR.N = BITGET(result, 31, 31);	\
+			APSR.Z = result ? 1 : 0;		\
+			APSR.C = carry;				\
+			APSR.V = overflow;			\
 		}						\
 	} while (0)
 
@@ -40,6 +46,10 @@
 		carry = (UInt(result) == unsigned_sum) ? 0 : 1;		\
 		overflow = (SInt(result) == signed_sum) ? 0 : 1;	\
 	} while (0);
+
+#define InITBlock()	(false)
+#define Shift(reg, a, b, c)
+#define DecodeImmShift(type, imm)
 
 #endif
 
